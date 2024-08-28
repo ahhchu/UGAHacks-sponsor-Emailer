@@ -2,3 +2,4 @@
 .venv/
 *.pyc
 client_secrets.json
+*.csv

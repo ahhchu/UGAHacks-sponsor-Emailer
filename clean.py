@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Reading the data
-df_new = pd.read_csv('data/new.csv')[['First Name', 'Email', 'Company Name for Emails']]
+df_new = pd.read_csv('data/8.27.2024.csv')[['First Name', 'Email', 'Company Name for Emails']]
 df_check = pd.read_csv('data/check.csv')[['First Name', 'Email', 'Company Name for Emails']]
 
 # Merging on 'Email' and 'Company Name for Emails' to find unique entries in df_new
@@ -24,4 +24,4 @@ df_check_updated = pd.concat([df_check, df_cleaned[['First Name', 'Email', 'Comp
 # Writing the updated DataFrame to CSV
 print("\n")
 print(df_check_updated)
-#df_check_updated.to_csv('data/check.csv', index=False)
+df_check_updated.to_csv('data/check.csv', index=False)
