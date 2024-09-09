@@ -1,27 +1,37 @@
 import pandas as pd
+import os
+from datetime import datetime
+def clean(path):
+    
+    # Reading the data
+    df_new = pd.read_csv(path)[['First Name', 'Email', 'Company Name']]
+    df_check = pd.read_csv('data/check.csv')[['First Name', 'Email', 'Company Name']]
 
-# Reading the data
-df_new = pd.read_csv('data/8.27.2024.csv')[['First Name', 'Email', 'Company Name for Emails']]
-df_check = pd.read_csv('data/check.csv')[['First Name', 'Email', 'Company Name for Emails']]
+    # Merging on 'Email' and 'Company Name for Emails' to find unique entries in df_new
+    merged_df = df_new.merge(df_check, on=['Email'], how='left', indicator=True, suffixes=('', '_from_check'))
+    merged_df = merged_df[merged_df['_merge'] == 'left_only']
+    merged_df = df_new.merge(df_check, on=['Company Name'], how='left', indicator=True, suffixes=('', '_from_check'))
 
-# Merging on 'Email' and 'Company Name for Emails' to find unique entries in df_new
-merged_df = df_new.merge(df_check, on=['Email'], how='left', indicator=True, suffixes=('', '_from_check'))
-merged_df = merged_df[merged_df['_merge'] == 'left_only']
-merged_df = df_new.merge(df_check, on=['Company Name for Emails'], how='left', indicator=True, suffixes=('', '_from_check'))
+    df_cleaned = merged_df[merged_df['_merge'] == 'left_only']
 
-df_cleaned = merged_df[merged_df['_merge'] == 'left_only']
+    # Selecting the relevant columns and printing the cleaned data
+    print(df_cleaned)
 
-# Selecting the relevant columns and printing the cleaned data
-print(df_cleaned)
+    # Saving the cleaned data to a new batch file
+    df_cleaned[['First Name', 'Email', 'Company Name']].to_csv('data/batch.csv', index=False)
 
-# Saving the cleaned data to a new batch file
-df_cleaned[['First Name', 'Email', 'Company Name for Emails']].to_csv('data/batch.csv', index=False)
+    # Concatenating cleaned new entries with the old list and removing duplicates by Email and Company Name for Emails
 
-# Concatenating cleaned new entries with the old list and removing duplicates by Email and Company Name for Emails
+    df_check_updated = pd.concat([df_check, df_cleaned[['First Name', 'Email', 'Company Name']]]).drop_duplicates(subset=['Email', 'Company Name'])
 
-df_check_updated = pd.concat([df_check, df_cleaned[['First Name', 'Email', 'Company Name for Emails']]]).drop_duplicates(subset=['Email', 'Company Name for Emails'])
+    # Writing the updated DataFrame to CSV
+    print("\n")
+    print(df_check_updated)
+    current_date = datetime.now()
+    date_str = current_date.strftime("%Y-%m-%d")
+    os.rename('data/check.csv', 'data/check_save'+date_str+".csv")
+    df_check_updated.to_csv('data/check.csv', index=False)
+    return 'data/check.csv'
 
-# Writing the updated DataFrame to CSV
-print("\n")
-print(df_check_updated)
-df_check_updated.to_csv('data/check.csv', index=False)
+if __name__ == '__main__':
+    clean('data/test.csv')

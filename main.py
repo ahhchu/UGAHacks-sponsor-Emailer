@@ -54,9 +54,10 @@ def send_email(service, message):
 
 def extract_and_send_emails(service):
     df = pd.read_csv('data/batch.csv')
+    
     for index, row in df.iterrows():
-        personalized_subject = f"UGA Hacks and {row['Company Name for Emails']} Partnership"
-        email_body = EMAIL_TEMPLATE.format(name=row['First Name'], company_name=row['Company Name for Emails'])
+        personalized_subject = f"UGA Hacks and {row['Company Name']} Partnership"
+        email_body = EMAIL_TEMPLATE.format(name=row['First Name'], company_name=row['Company Name'])
         message = create_message(SENDER_EMAIL, row['Email'], personalized_subject, email_body)
         send_email(service, message)
         time.sleep(5)
