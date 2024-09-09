@@ -28,7 +28,7 @@ def clean(path):
     print("\n")
     print(df_check_updated)
     current_date = datetime.now()
-    date_str = current_date.strftime("%Y-%m-%d")
+    date_str = current_date.strftime("%Y-%m-%d-%H%M")
     os.rename('data/check.csv', 'data/check_save'+date_str+".csv")
     df_check_updated.to_csv('data/check.csv', index=False)
     return 'data/check.csv'
