@@ -54,11 +54,15 @@ Customize the filename of the csv you are using in clean.py
 
 ### Running the Scripts
 
-1. **Process new data entries**:
+1. **Scrape emails from apollo**
+   make ure you have the following extention installed https://apolloexporter.scrapejob.net/
+   On apollo enter search criteria and hit the extension's button on the bar above the search results
+   - If you are not seeing it, try enabling the extension to run in incognito and try in an anonymous browser.
+2. **Process new data entries**:
    Run `clean.py` to update `data/batch.csv` with new entries:
    `python clean.py`
 
-2. **Send emails**:
+3. **Send emails**:
    Execute `main.py` to send emails to the updated list:
    `python main.py`
 
@@ -72,3 +76,5 @@ Customize the filename of the csv you are using in clean.py
 ### Conclusion
 
 This documentation covers the setup and use of the Automatic Emailer project. Ensure you follow the steps carefully and customize the scripts as needed for your specific requirements.
+
+Please contact me with any questions/suggestions
