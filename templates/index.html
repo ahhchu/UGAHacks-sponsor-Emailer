@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSV Email Sender</title>
+    <link
+      href="{{ url_for('static', filename='styles.css') }}"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body class="bg-gray-100 p-10">
+    <div class="container mx-auto max-w-lg bg-white p-8 shadow-md">
+      <h1 class="text-3xl font-bold mb-6">UGAHacks Email Sender</h1>
+
+      <!-- File Upload Form for CSV -->
+      <form id="uploadForm" enctype="multipart/form-data">
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700"
+            >Upload CSV File</label
+          >
+          <input
+            type="file"
+            name="file"
+            id="fileInput"
+            class="mt-1 p-2 border rounded w-full"
+          />
+        </div>
+
+        <!-- Submit Button for Upload -->
+        <div class="mt-6">
+          <button
+            type="submit"
+            class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+          >
+            Upload and Clean Data
+          </button>
+        </div>
+      </form>
+
+      <!-- Error Message Display -->
+      <div id="errorMessage" class="mt-6 hidden text-red-500"></div>
+
+      <!-- Table for Displaying Cleaned Data -->
+      <div id="tableContainer" class="mt-6 hidden">
+        <h2 class="text-xl font-bold mb-4">Cleaned CSV Data (Editable)</h2>
+        <table id="csvTable" class="table-auto w-full border-collapse">
+          <thead>
+            <tr id="tableHead"></tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+
+        <!-- Customizable Email Parameters -->
+        <div class="mt-6">
+          <h2 class="text-xl font-bold mb-4">Customize Email</h2>
+
+          <label class="block text-sm font-medium text-gray-700"
+            >Sender Email</label
+          >
+          <input
+            type="email"
+            id="senderEmail"
+            class="mt-1 p-2 border rounded w-full"
+            required
+          />
+
+          <label class="block text-sm font-medium text-gray-700 mt-4"
+            >CC Emails</label
+          >
+          <input
+            type="text"
+            id="ccEmails"
+            class="mt-1 p-2 border rounded w-full"
+            placeholder="Comma-separated"
+          />
+
+          <label class="block text-sm font-medium text-gray-700 mt-4"
+            >Email Subject</label
+          >
+          <input
+            type="text"
+            id="emailSubject"
+            class="mt-1 p-2 border rounded w-full"
+            required
+          />
+
+          <label class="block text-sm font-medium text-gray-700 mt-4"
+            >Email Body</label
+          >
+          <textarea
+            id="emailBody"
+            class="mt-1 p-2 border rounded w-full"
+            rows="6"
+            placeholder="Use placeholders like {name} and {company_name}"
+            required
+          ></textarea>
+        </div>
+
+        <!-- Send Emails Button -->
+        <div class="mt-6">
+          <button
+            type="button"
+            id="sendEmailsButton"
+            class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700"
+          >
+            Authenticate & Send Emails
+          </button>
+        </div>
+        <div>
+          <button type="button" id="auth-button">Auth</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let cleanedData = [];
+
+      // Handle CSV file upload and clean data
+      const uploadForm = document.getElementById("uploadForm");
+      uploadForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const formData = new FormData(uploadForm);
+
+        axios
+          .post("/clean-data", formData)
+          .then((response) => {
+            cleanedData = response.data;
+            displayTable(cleanedData); // Display cleaned data in editable table
+          })
+          .catch((error) => {
+            console.error("Error cleaning data:", error);
+          });
+      });
+
+      // Display cleaned CSV data in editable table
+      function displayTable(data) {
+        const tableHead = document.getElementById("tableHead");
+        const tableBody = document.getElementById("tableBody");
+
+        tableHead.innerHTML = ""; // Clear previous table content
+        tableBody.innerHTML = "";
+
+        const headers = Object.keys(data[0]);
+        headers.forEach((header) => {
+          const th = document.createElement("th");
+          th.textContent = header;
+          tableHead.appendChild(th);
+        });
+
+        data.forEach((row, rowIndex) => {
+          const tr = document.createElement("tr");
+          headers.forEach((header) => {
+            const td = document.createElement("td");
+
+            const input = document.createElement("input");
+            input.type = "text";
+            input.value = row[header];
+            input.className = "w-full p-1";
+            input.addEventListener("input", function () {
+              cleanedData[rowIndex][header] = input.value; // Update data when user edits
+            });
+
+            td.appendChild(input);
+            tr.appendChild(td);
+          });
+          tableBody.appendChild(tr);
+        });
+
+        document.getElementById("tableContainer").classList.remove("hidden"); // Show table
+      }
+
+      // Handle sending emails
+      const sendEmailsButton = document.getElementById("sendEmailsButton");
+      sendEmailsButton.addEventListener("click", async function () {
+        const senderEmail = document.getElementById("senderEmail").value;
+        const ccEmails = document.getElementById("ccEmails").value;
+        const emailSubject = document.getElementById("emailSubject").value;
+        const emailBody = document.getElementById("emailBody").value;
+
+        const emailData = {
+          sender_email: senderEmail,
+          cc_emails: ccEmails,
+          subject: emailSubject,
+          body: emailBody,
+          recipients: cleanedData, // Send cleaned data to backend
+        };
+
+        try {
+          const response = await axios.post("/auth/send-emails", emailData);
+          alert(response.data.success || response.data.error);
+        } catch (error) {
+          console.error("Error sending emails:", error);
+        }
+      });
+      // document
+      //   .getElementById("auth-button")
+      //   .addEventListener("click", function () {
+      //     // Step 1: Request authorization URL
+      //     fetch("/authorize", {
+      //       method: "POST",
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //       },
+      //     })
+      //       .then((response) => response.json())
+      //       .then((data) => {
+      //         // Open authorization in a popup window
+      //         const popup = window.open(
+      //           data.authorization_url,
+      //           "_blank",
+      //           "width=500,height=600"
+      //         );
+
+      //         // Polling the popup window to check if it's closed
+      //         const popupPoll = setInterval(function () {
+      //           if (popup.closed) {
+      //             clearInterval(popupPoll);
+
+      //             // Step 2: Start sending emails when the popup is closed
+      //             sendEmails();
+      //           }
+      //         }, 500);
+      //       });
+      //   });
+      document
+        .getElementById("auth-button")
+        .addEventListener("click", function () {
+          // Step 1: Request authorization URL
+          fetch("/authorize", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              // Open authorization in a popup window
+              const popup = window.open(
+                data.authorization_url,
+                "_blank",
+                "width=500,height=600"
+              );
+
+              const popupPoll = setInterval(function () {
+                try {
+                  console.log(popup.location.href);
+                  // Check if the popup's location matches the Redirect URL
+                  if (popup.location.href.includes("/oauth2callback")) {
+                    // Extract the access token or code from the URL
+                    const params = new URLSearchParams(popup.location.search);
+                    const code = params.get("code");
+
+                    if (code) {
+                      console.log("Authorization Code:", code);
+
+                      // Exchange the authorization code for access tokens
+                      axios
+                        .post("/exchange-code", { code: code })
+                        .then((response) => {
+                          console.log(
+                            "Access Token:",
+                            response.data.access_token
+                          );
+                          document.getElementById("status-message").innerText =
+                            "Authenticated!";
+                        })
+                        .catch((err) =>
+                          console.error("Error exchanging code:", err)
+                        );
+
+                      // Stop the polling after successful token exchange
+                      popup.close();
+                      clearInterval(popupPoll);
+                    }
+                  }
+                } catch (err) {
+                  // Ignore cross-origin errors until the popup reaches the same origin
+                }
+              }, 500);
+            });
+        });
+      function sendEmails() {
+        // Step 3: Start sending emails via the /send_emails endpoint
+        const eventSource = new EventSource("/send_emails");
+
+        eventSource.onmessage = function (event) {
+          // Update the progress on the frontend
+          document.getElementById("progress-count").innerText = event.data;
+        };
+
+        eventSource.onerror = function () {
+          // Handle errors, close the connection
+          eventSource.close();
+          document.getElementById("status-message").innerText =
+            "Error sending emails!";
+        };
+
+        eventSource.onopen = function () {
+          document.getElementById("status-message").innerText =
+            "Sending emails...";
+        };
+
+        eventSource.onclose = function () {
+          // When the stream is closed
+          document.getElementById("status-message").innerText =
+            "Email sending complete!";
+        };
+      }
+    </script>
+  </body>
+</html>

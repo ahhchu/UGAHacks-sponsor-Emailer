@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Cleaned Data</title>
+    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-10">
+    <div class="container mx-auto max-w-lg bg-white p-8 shadow-md">
+        <h1 class="text-2xl font-bold mb-6">Edit Cleaned Data Before Sending Emails</h1>
+        
+        <form action="/send-emails" method="POST">
+            <table class="table-auto w-full">
+                <thead>
+                    <tr>
+                        {% for title in titles %}
+                        <th class="px-4 py-2">{{ title }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in tables[0].split('</tr>') %}
+                    <tr>
+                        {% for cell in row.split('</td>') %}
+                        <td class="border px-4 py-2">
+                            <input type="text" name="{{ titles[loop.index0] }}" value="{{ cell }}">
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Submit Button -->
+            <div class="mt-6">
+                <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Confirm and Send Emails</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
