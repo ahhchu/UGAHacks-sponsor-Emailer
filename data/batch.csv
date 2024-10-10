@@ -1,38 +1,100 @@
 First Name,Email,Company Name
-Fabio,fabio@looker.com,Looker
-Matt,matt@dynamic.xyz,Dynamic
-Brian,brian.rinaldi@localstack.cloud,LocalStack
-Steve,steve.persch@pantheon.io,Pantheon
-Trey,trey@atomicfi.com,Atomic
-Chelsea,chelsea@discovercontrolplane.com,Control Plane
-Faith,faith@grafana.com,Grafana Labs
-Bryce,bryce.kinnear@teamviewer.com,TeamViewer
-Kanishk,kanishk@fleek.xyz,Fleek
-William,will@wherobots.com,Wherobots
-Annabelle,annie@codesmith.io,Codesmith
-Abhijit,abhijit@aryn.ai,Aryn
-Soo,soopark@woowahan.com,(주)우아한형제들 (Woowa Bros.)
-Jonathan,jonathan@reverent.tv,Baboon Agency
-Anthony,anthony.vargas@blackriflecoffee.com,Black Rifle Coffee Company
-Daniella,dbatista@raincityhousing.org,RainCity Housing and Support Society
-Manisha,manisha.bakshi@spectraforce.com,SPECTRAFORCE
-Poornima,ppopali@oxfordsolutionsinc.com,Oxford Solutions
-Stephanie,stephanie.barner@dsjglobal.com,Discover International
-Alexandra,amoulinet@leapros.com,Leapros Skilled Trades
-Charles,czellie@xede.com,Xede Consulting Group
-Laura,laura.tromben@knowink.com,KNOWiNK
-Rome,rzaff@partners-staffing.com,PARTNERS Staffing
-Aashish,a.kumar@e-solutionsinc.com,E-Solutions
-Qingyu,qingyu.xu@animallogic.com,Animal Logic
-Bree,bree.silveira@airtable.com,Airtable
-Amonique,amonique.strehle@gogpac.com,gpac
-Hana,hana.blythe-santos@lovemyjob.com,Flexible IT
-Cheng,cheng.lee@ststechnicaljobs.com,STS Technical Services
-Ennor,ennor.armah@advictoriamsolutions.com,Ad Victoriam Solutions
-Josh,josh.pelham@moloco.com,Moloco
-Martha,martha.salas@joindaisy.com,Daisy
-Damanpreet,dkaur@ventois.com,Ventois
-Lynde,lynde@interiortalent.com,Interior Talent
-Gary,gzazovskiy@rfa.com,RFA
-Whitney,whitney.wigton@prospectblue.com,ProspectBlue
-Beth,beth.yarbrough@eosysgroup.com,EOSYS
+Jennifer Stutmann,jennifer.stutmann@bbh.com,Brown Brothers Harriman
+Cindy Knezevich,cindy.knezevich@salesloft.com,Salesloft
+Anna Fricks,anna.fricks@ironhack.com,IronHack
+Victor Antonio,victor.antonio@pridesurveys.com,Pride Surveys
+Barbara Villafane,bvillafane@deloitte.co,Deloitte
+Ricky Robinett,ricky.robinett@cloudflare.com,Cloudflare
+Tony Burdett,tony.burdett@ncrvoyix.com,NCR Voyix
+Bear,bear.d@pinecone.io,Pinecone
+Josh,josh@aztecprotocol.com,Aztec
+Jordan,jordan@superwall.com,Superwall
+Jackie,jackie@dune.com,Dune
+Jamie,jamie@unevenlabs.com,Uneven Labs
+Adam,adam@compound.finance,Compound Labs
+Arturo,arturo@diversion.dev,Diversion
+Jonathan,jbulava@twitch.tv,Twitch
+Dan,dan@textile.io,Textile
+Skip,skip@kolena.com,Kolena
+Chris,chris.kim@algorand.com,Algorand Foundation
+Danny,danny.ouk@apple.com,Apple
+Liron,lironf@nvidia.com,NVIDIA
+Ricky,rrobinett@cloudflare.com,Cloudflare
+Sterling,sterling.chin@postman.com,Postman
+Victor,victor.m@metis.io,Metis
+Yuri,yuri@supabase.io,Supabase
+Terrence Mikell,terrence.mikell@travelport.com,Travelport
+Christina,christina@intelletec.com,Intelletec
+Nenad,nenad@tenderly.co,Tenderly
+Woohyung,woohyung.kim@cj.net,CJ OliveNetworks
+Bhimgouda,bhimgouda@sarva.ai,Sarva Labs
+Suhail,suhail@livepeer.org,NodeShift
+Javier,javier@gelato.digital,Gelato
+Brendan,brendan@swirldslabs.com,Hashgraph
+Saksham,saksham@infrasity.com,Infrasity
+Ricardo,rferreira@amazon.com,Amazon Web Services
+Sanskriti,sanskriti@hoppscotch.io,Hoppscotch
+Tauqeer,tauqeer@tezosindia.foundation,NodeShift
+Andre,andre@vidadeprogramador.com.br,The Developer's Life
+Gordon,gordon@rive.app,Rive
+Harpalsinh,harpalsinh.jadeja@celo.org,Celo Foundation
+Fellyph,fellyph.rozendo@rtcamp.com,rtCamp
+Estevan,ev@matterlabs.dev,Matter Labs
+Laurens,laurens@iotstars.com,IoT Stars
+Rachael,rachael@quantstamp.com,Quantstamp
+Meor,meor@cohere.com,Cohere
+Minseo,msjang@cochlear.ai,Cochl
+Robin,robin@availproject.org,Avail
+Elizabeth,elizabeth@dfinity.org,DFINITY
+Jacob,jacob@storyprotocol.xyz,Story
+Karen,kbajzaterlouw@paypal.com,PayPal
+Alyssa,atong@cloudbees.com,CloudBees
+Kelly,kelly.beller@blockitnow.com,blockit
+Kevin,kevinmiller@rapyd.net,Rapyd
+Jorge,jorge@cncf.io,Cloud Native Computing Foundation (CNCF)
+Hatice,hozen@groq.com,Groq
+Dan,dan@alpaca.markets,Alpaca
+Stephanie,stephanie@naverz-corp.com,NAVER Z (ZEPETO)
+John,john.liu@solana.org,Solana Foundation
+Shane,strout@toasttab.com,Toast
+Mark,mark@sharedsolaradvisors.com,Shared Solar Advisors USA
+Dylan,dylan@casper.network,Casper Association
+Developer,devrel@devzero.io,DevZero
+Tina,tinah@devexpress.com,"Developer Express, Inc."
+Tim,tim@confluent.io,Confluent
+Elif,elif.umucu@smartcontract.com,Chainlink Labs
+Katherine,katscott@intrinsic.ai,Intrinsic
+Chris,chris.williams@hashicorp.com,HashiCorp
+Daniel,daniel.myers@snowflake.com,Snowflake
+Alex,alex.patterson@fusionauth.io,FusionAuth
+Steven,sxu5@snap.com,Snap Inc.
+Sean,sean.chen@informal.systems,Informal Systems
+Benjamin,benjamin.kagan@gusto.com,Gusto
+Alex,alex@predibase.com,Predibase
+Greta,gadamonis@interiorsbysteveng.com,"INTERIORS BY STEVEN G., INC."
+Greg,gsvoboda@activecampaign.com,ActiveCampaign
+Nuke,nuke@risczero.com,RISC Zero
+Sushrut,sushrut.athavale@harness.io,Harness
+Tracy,tracy.trimmer@htc.hargray.com,Hargray Communications
+Sam,sam@audius.co,Audius
+Stevan,stevan.lohja@iohk.io,Input Output (IOHK)
+Jordan,jbergero@squareup.com,Square
+Christina,christina.zhu@visier.com,Visier Inc.
+Steven,steven.vanwoerkom@finicity.com,"Finicity, a Mastercard Company"
+Marty,marty@khronosgroup.org,The Khronos Group
+Patrick,patrick@agamico.com,Arweave
+Luke,luke.kilpatrick@harness.io,Harness
+Joe,joegabriel@nianticlabs.com,"Niantic, Inc."
+Steph,steph.orpilla@nillion.com,Nillion
+Laurie,laurie@runllama.ai,LlamaIndex
+Sam,sam.julien@writer.com,Writer
+Chris,hoge@modular.com,Modular
+Aaron,aaron.ploetz@datastax.com,DataStax
+Michael,michael.crump@vonage.com,Vonage
+Andrew,andrew.shahan@dailypay.com,"DailyPay, Inc."
+Colleen,colleen.lavin@particle.io,Particle
+Matt,matt.murray@eigenlabs.org,Eigen Labs
+Adam,adam.fitzgerald@hashicorp.com,HashiCorp
+Allen,als@umbraco.dk,Umbraco
+Nick,nick.diego@automattic.com,Automattic
+Zihe,zihe@sui.io,Sui Foundation

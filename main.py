@@ -7,24 +7,22 @@ import pandas as pd
 import time
 
 # Constants
-SENDER_EMAIL = 'henry.lue@ugahacks.com' #make sure to use the same gmail as the sending email
-CC_EMAILS = 'hello@ugahacks.com, sponsor@ugahacks.com'  # Add constant CC addresses here
+SENDER_EMAIL = 'nichebox.co@gmail.com' #make sure to use the same gmail as the sending email
+CC_EMAILS = 'jnp00008@uga.edu, khushi.bhatamrekar@uga.edu, hemant.gautam@uga.edu'  # Add constant CC addresses here
 EMAIL_TEMPLATE = '''<p>Dear {name},</p>
  
-<p>My name is Henry and I am a sponsorship organizer for UGAHacks, the official student-run hackathon for the University of Georgia (UGA). Our event is a 3-day coding competition consisting of challenging programming contests, networking with top tech companies, and classes on new cutting-edge technologies pervading the market.</p>
+<p>I hope this message finds you well! My name is Catherine, and, along with two other students from the University of Georgia, I co-founded NicheBox, a startup focused on delivering unique team-building experiences through our carefully crafted hobby kits. Each NicheBox is designed to bring a fresh twist to corporate outings, encouraging creativity and connection within teams.</p>
  
-<p>This upcoming February 7th-9th we are excited to hold our 10th annual Hackathon here at UGA! We believe that {company_name} would be a perfect asset for UGAHacks X. Support from our previous sponsors such as BlackRock, State Farm, and Capital One made our hackathons successful. This year is expected to be our biggest event yet, with an estimated attendance of 800 hackers. With {company_name} as an official sponsor, we could make this the most exciting and memorable event thus far.</p>
+<p>We’re excited to offer two versatile options that can elevate your next event: a Team Painting Kit for a collaborative and hands-on experience or a Digital Office Icebreaker Bundle that promotes team bonding in a fun and interactive way, ideal for remote or hybrid teams. Each kit is customizable to match your company's culture and goals, making it a memorable experience for everyone involved.</p>
 
-<p>UGAHacks X will be an incredible opportunity for {company_name}. Our partners have the chance to connect with our top participants by arranging their own competitions and events, introducing their technologies, reviewing student resumes, and hosting in-person interviews. UGAHacks’ participants come from all around the country, with some notable universities being UGA, Georgia Tech, NYU, and others.</p>
+<p>If you're interested in learning more or would like to explore a trial, we’d be thrilled to discuss how NicheBox can bring a unique and impactful touch to your team building events. Thank you for considering a partnership with us, and we look forward to the opportunity to work together!</p>
 
-<p>I would love to send you our Sponsorship Packet and set up a meeting or call with you if you are interested in being involved with our 10th annual Hackathon!</p>
-<p>If you have any questions, don’t hesitate to reach me via email. Thank you for your time, and we look forward to hearing from you!</p>
+<p>Warm Regards,</p>
 
-<p>Best,</p>
-
-<p>Henry Lue</p>
-<strong>Sponsorship Team</strong><br>
-<strong>UGAHacks X</strong></p>
+<p>Catherine Chu</p>
+<strong>Co-Founder, NicheBox</strong><br>
+<strong>University of Georgia</strong><br>
+<strong>nichebox.co@gmail.com</strong></p>
 '''
 
 def get_service():
@@ -56,7 +54,7 @@ def extract_and_send_emails(service):
     df = pd.read_csv('data/batch.csv')
     
     for index, row in df.iterrows():
-        personalized_subject = f"UGA Hacks and {row['Company Name']} Partnership"
+        personalized_subject = f"NicheBox and {row['Company Name']} Partnership"
         email_body = EMAIL_TEMPLATE.format(name=row['First Name'], company_name=row['Company Name'])
         message = create_message(SENDER_EMAIL, row['Email'], personalized_subject, email_body)
         send_email(service, message)
