@@ -53,17 +53,18 @@ def clean(path):
     df_check_updated.update(df_new_indexed)
     df_check_updated = df_check_updated.reset_index()
 
-    # Writing the updated DataFrame to CSV
+    # Append the updated DataFrame to test2.csv
     print("\nUpdated check file:")
     print(df_check_updated)
     
     current_date = datetime.now()
     date_str = current_date.strftime("%Y-%m-%d-%H%M")
-    os.rename('data/test2.csv', f'data/test2_save_{date_str}.csv')
-    df_check_updated.to_csv('data/test2.csv', index=False)
     
-    print(f"\nUpdated test2.csv with {len(df_check_updated)} rows of cleaned data")
-    print(f"Previous version saved as test2_save_{date_str}.csv")
+    # Append to test2.csv instead of overwriting
+    df_check_updated.to_csv('data/test2.csv', mode='a', header=False, index=False)
+    
+    print(f"\nAppended {len(df_cleaned)} new rows to test2.csv")
+    print(f"Total rows in test2.csv: {len(df_check)+ len(df_cleaned)}")
     
     return 'data/test2.csv'
 
