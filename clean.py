@@ -66,4 +66,4 @@ def clean(path):
     return 'data/test2.csv'
 
 if __name__ == '__main__':
-    clean('data/fake.csv')
+    clean('data/Details_20241016172129.csv')
