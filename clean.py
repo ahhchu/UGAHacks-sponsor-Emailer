@@ -1,37 +1,71 @@
 import pandas as pd
 import os
 from datetime import datetime
+
 def clean(path):
-    
     # Reading the data
-    df_new = pd.read_csv(path)[['First Name', 'Email', 'Company Name']]
-    df_check = pd.read_csv('data/check.csv')[['First Name', 'Email', 'Company Name']]
+    df_new = pd.read_csv(path)
+    df_check = pd.read_csv('data/test2.csv')
 
-    # Merging on 'Email' and 'Company Name for Emails' to find unique entries in df_new
-    merged_df = df_new.merge(df_check, on=['Email'], how='left', indicator=True, suffixes=('', '_from_check'))
-    merged_df = merged_df[merged_df['_merge'] == 'left_only']
-    merged_df = df_new.merge(df_check, on=['Company Name'], how='left', indicator=True, suffixes=('', '_from_check'))
+    # Ensure required columns exist
+    required_columns = ['First Name', 'Email', 'Company Name']
+    for df in [df_new, df_check]:
+        for col in required_columns:
+            if col not in df.columns:
+                raise ValueError(f"Required column '{col}' not found in CSV file")
 
-    df_cleaned = merged_df[merged_df['_merge'] == 'left_only']
+    # Add 'Personal' column if it doesn't exist
+    for df in [df_new, df_check]:
+        if 'Personal' not in df.columns:
+            df['Personal'] = pd.NA
+
+    # Select only the required columns
+    df_new = df_new[required_columns + ['Personal']]
+    df_check = df_check[required_columns + ['Personal']]
+
+    # Perform cleaning on df_check
+    df_check = df_check.drop_duplicates()
+    df_check = df_check.dropna(subset=['Email', 'First Name'])
+    string_columns = df_check.select_dtypes(include=['object']).columns
+    df_check[string_columns] = df_check[string_columns].apply(lambda x: x.str.strip())
+
+    # Merging on 'Email' to find unique entries in df_new
+    merged_df = df_new.merge(df_check, on=['Email'], how='left', indicator='merge_email', suffixes=('', '_from_check'))
+    merged_df = merged_df[merged_df['merge_email'] == 'left_only']
+
+    # Merging on 'Company Name' to further filter unique entries
+    merged_df = merged_df.merge(df_check, on=['Company Name'], how='left', indicator='merge_company', suffixes=('', '_from_check'))
+    df_cleaned = merged_df[merged_df['merge_company'] == 'left_only']
 
     # Selecting the relevant columns and printing the cleaned data
+    df_cleaned = df_cleaned[required_columns + ['Personal']]
     print(df_cleaned)
 
-    # Saving the cleaned data to a new batch file
-    df_cleaned[['First Name', 'Email', 'Company Name']].to_csv('data/batch.csv', index=False)
+    # Saving the cleaned data to batch.csv
+    df_cleaned.to_csv('data/batch.csv', index=False)
 
-    # Concatenating cleaned new entries with the old list and removing duplicates by Email and Company Name for Emails
+    # Concatenating cleaned new entries with the old list and removing duplicates
+    df_check_updated = pd.concat([df_check, df_cleaned]).drop_duplicates(subset=['Email', 'Company Name'], keep='last')
 
-    df_check_updated = pd.concat([df_check, df_cleaned[['First Name', 'Email', 'Company Name']]]).drop_duplicates(subset=['Email', 'Company Name'])
+    # Update 'First Name' and 'Personal' for existing entries
+    df_check_updated = df_check_updated.set_index('Email')
+    df_new_indexed = df_new.set_index('Email')
+    df_check_updated.update(df_new_indexed)
+    df_check_updated = df_check_updated.reset_index()
 
     # Writing the updated DataFrame to CSV
-    print("\n")
+    print("\nUpdated check file:")
     print(df_check_updated)
+    
     current_date = datetime.now()
     date_str = current_date.strftime("%Y-%m-%d-%H%M")
-    os.rename('data/check.csv', 'data/check_save'+date_str+".csv")
-    df_check_updated.to_csv('data/check.csv', index=False)
-    return 'data/check.csv'
+    os.rename('data/test2.csv', f'data/test2_save_{date_str}.csv')
+    df_check_updated.to_csv('data/test2.csv', index=False)
+    
+    print(f"\nUpdated test2.csv with {len(df_check_updated)} rows of cleaned data")
+    print(f"Previous version saved as test2_save_{date_str}.csv")
+    
+    return 'data/test2.csv'
 
 if __name__ == '__main__':
-    clean('data\Details_20240926121633.csv')
+    clean('data/test2.csv')

@@ -5,33 +5,40 @@ from email.mime.text import MIMEText
 import base64
 import pandas as pd
 import time
+from google.auth.exceptions import RefreshError
 
 # Constants
-SENDER_EMAIL = 'henry.lue@ugahacks.com' #make sure to use the same gmail as the sending email
-CC_EMAILS = 'hello@ugahacks.com, sponsor@ugahacks.com'  # Add constant CC addresses here
+SENDER_EMAIL = 'nichebox.co@gmail.com' #make sure to use the same gmail as the sending email
+CC_EMAILS = 'jiya.patel@uga.edu'  # Add constant CC addresses here
 EMAIL_TEMPLATE = '''<p>Dear {name},</p>
  
-<p>My name is Henry and I am a sponsorship organizer for UGAHacks, the official student-run hackathon for the University of Georgia (UGA). Our event is a 3-day coding competition consisting of challenging programming contests, networking with top tech companies, and classes on new cutting-edge technologies pervading the market.</p>
- 
-<p>This upcoming February 7th-9th we are excited to hold our 10th annual Hackathon here at UGA! We believe that {company_name} would be a perfect asset for UGAHacks X. Support from our previous sponsors such as BlackRock, State Farm, and Capital One made our hackathons successful. This year is expected to be our biggest event yet, with an estimated attendance of 800 hackers. With {company_name} as an official sponsor, we could make this the most exciting and memorable event thus far.</p>
+<p> Are you finding it challenging to plan a team building event? Organizing activities that align with your team’s goals, 
+culture, and interests can be a tough task, and it often requires more time and effort than anticipated. </p>
 
-<p>UGAHacks X will be an incredible opportunity for {company_name}. Our partners have the chance to connect with our top participants by arranging their own competitions and events, introducing their technologies, reviewing student resumes, and hosting in-person interviews. UGAHacks’ participants come from all around the country, with some notable universities being UGA, Georgia Tech, NYU, and others.</p>
+<p> Let us take that responsibility off your plate. From selecting the right activities to managing every detail, 
+we handle everything to ensure your team gets a meaningful, fun, and impactful event.</p>
 
-<p>I would love to send you our Sponsorship Packet and set up a meeting or call with you if you are interested in being involved with our 10th annual Hackathon!</p>
-<p>If you have any questions, don’t hesitate to reach me via email. Thank you for your time, and we look forward to hearing from you!</p>
+<p>If you’d like to explore how we can create a hassle free, engaging experience for your team, let’s set up a time to chat!</p>
 
-<p>Best,</p>
+<p>Looking forward to the opportunity,</p>
 
-<p>Henry Lue</p>
-<strong>Sponsorship Team</strong><br>
-<strong>UGAHacks X</strong></p>
+<p>Khushi Bhatamrekar </p>
+<strong>Co-Founder, Nichebox</strong><br>
+<strong>nichebox.co@gmail.com</strong></p>
 '''
 
 def get_service():
-    flow = InstalledAppFlow.from_client_secrets_file(
-        'client_secrets.json', scopes=['https://www.googleapis.com/auth/gmail.send'])
-    credentials = flow.run_local_server(port=8080)
-    return build('gmail', 'v1', credentials=credentials)
+    try:
+        flow = InstalledAppFlow.from_client_secrets_file(
+            'client_secrets.json', scopes=['https://www.googleapis.com/auth/gmail.send'])
+        credentials = flow.run_local_server(port=0)
+        return build('gmail', 'v1', credentials=credentials)
+    except RefreshError as e:
+        print(f"RefreshError: {e}")
+        print("This error often occurs when the client_secrets.json file is outdated or misconfigured.")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+    return None
 
 def create_message(sender, to, subject, message_text, cc=CC_EMAILS):
     message = MIMEText(message_text, 'html')
@@ -53,11 +60,11 @@ def send_email(service, message):
         return None
 
 def extract_and_send_emails(service):
-    df = pd.read_csv('data/batch.csv')
+    df = pd.read_csv('data/test2_save_2024-10-15-1337.csv')
     
     for index, row in df.iterrows():
-        personalized_subject = f"UGA Hacks and {row['Company Name']} Partnership"
-        email_body = EMAIL_TEMPLATE.format(name=row['First Name'], company_name=row['Company Name'])
+        personalized_subject = f"Need a Stress Free Solution for Your Next Team Building Event?"
+        email_body = EMAIL_TEMPLATE.format(name=row['First Name'], company_name=row['Company Name'], personal=row['Personal'])
         message = create_message(SENDER_EMAIL, row['Email'], personalized_subject, email_body)
         send_email(service, message)
         time.sleep(5)
@@ -65,6 +72,9 @@ def extract_and_send_emails(service):
 if __name__ == '__main__':
     try:
         service = get_service()
-        extract_and_send_emails(service)
+        if service:
+            extract_and_send_emails(service)
+        else:
+            print("Failed to obtain Gmail service. Please check the error messages above.")
     except Exception as e:
         print(f"An error occurred: {e}")
