@@ -12,17 +12,18 @@ SENDER_EMAIL = 'nichebox.co@gmail.com' #make sure to use the same gmail as the s
 CC_EMAILS = 'jiya.patel@uga.edu'  # Add constant CC addresses here
 EMAIL_TEMPLATE = '''<p>Dear {name},</p>
  
-<p> Are you finding it challenging to plan a team building event? Organizing activities that align with your team’s goals, 
+<p> Are you finding it challenging to plan a team building event? Organizing activities that align with your team's goals, 
 culture, and interests can be a tough task, and it often requires more time and effort than anticipated. {personal}</p>
 
 <p> Let us take that responsibility off your plate. From selecting the right activities to managing every detail, 
 we handle everything to ensure your team gets a meaningful, fun, and impactful event.</p>
 
-<p>If you’d like to explore how we can create a hassle free, engaging experience for your team, let’s set up a time to chat!</p>
+<p>If you'd like to explore how we can create a hassle free, engaging experience for your team, let's set up a time to chat!</p>
 
 <p>Looking forward to the opportunity,</p>
 
 <p>Khushi Bhatamrekar </p>
+<p> <a href="https://www.etsy.com/listing/1796071920/workplace-games-activities-printable?click_key=9b96696c4b27dfdcda8efe7592004c3db127fe4e%3A1796071920&click_sum=2dadf352&ref=shop_home_active_1">Our Etsy Shop</a> </p>
 <strong>Co-Founder, Nichebox</strong><br>
 <strong>nichebox.co@gmail.com</strong></p>
 '''
