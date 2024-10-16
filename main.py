@@ -13,7 +13,7 @@ CC_EMAILS = 'jiya.patel@uga.edu'  # Add constant CC addresses here
 EMAIL_TEMPLATE = '''<p>Dear {name},</p>
  
 <p> Are you finding it challenging to plan a team building event? Organizing activities that align with your team’s goals, 
-culture, and interests can be a tough task, and it often requires more time and effort than anticipated. </p>
+culture, and interests can be a tough task, and it often requires more time and effort than anticipated. {personal}</p>
 
 <p> Let us take that responsibility off your plate. From selecting the right activities to managing every detail, 
 we handle everything to ensure your team gets a meaningful, fun, and impactful event.</p>
