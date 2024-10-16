@@ -44,8 +44,8 @@ def clean(path):
     # Saving the cleaned data to batch.csv
     df_cleaned.to_csv('data/batch.csv', index=False)
 
-    # Concatenating cleaned new entries with the old list and removing duplicates
-    df_check_updated = pd.concat([df_check, df_cleaned]).drop_duplicates(subset=['Email', 'Company Name'], keep='last')
+    # Only add new, non-duplicate entries to test2.csv
+    df_check_updated = pd.concat([df_check, df_cleaned]).drop_duplicates(subset=['Email', 'Company Name'], keep='first')
 
     # Update 'First Name' and 'Personal' for existing entries
     df_check_updated = df_check_updated.set_index('Email')
@@ -53,20 +53,22 @@ def clean(path):
     df_check_updated.update(df_new_indexed)
     df_check_updated = df_check_updated.reset_index()
 
-    # Append the updated DataFrame to test2.csv
     print("\nUpdated check file:")
     print(df_check_updated)
     
     current_date = datetime.now()
     date_str = current_date.strftime("%Y-%m-%d-%H%M")
     
-    # Append to test2.csv instead of overwriting
-    df_check_updated.to_csv('data/test2.csv', mode='a', header=False, index=False)
+    # Calculate new rows
+    new_rows = len(df_check_updated) - len(df_check)
     
-    print(f"\nAppended {len(df_cleaned)} new rows to test2.csv")
-    print(f"Total rows in test2.csv: {len(df_check)+ len(df_cleaned)}")
+    # Overwrite test2.csv with the updated data
+    df_check_updated.to_csv('data/test2.csv', index=False)
+    
+    print(f"\nAdded {new_rows} new rows to test2.csv")
+    print(f"Total rows in test2.csv: {len(df_check_updated)}")
     
     return 'data/test2.csv'
 
 if __name__ == '__main__':
-    clean('data/test2.csv')
+    clean('data/fake.csv')
