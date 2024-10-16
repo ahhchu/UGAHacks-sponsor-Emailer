@@ -14,14 +14,9 @@ def clean(path):
             if col not in df.columns:
                 raise ValueError(f"Required column '{col}' not found in CSV file")
 
-    # Add 'Personal' column if it doesn't exist
-    for df in [df_new, df_check]:
-        if 'Personal' not in df.columns:
-            df['Personal'] = pd.NA
-
     # Select only the required columns
-    df_new = df_new[required_columns + ['Personal']]
-    df_check = df_check[required_columns + ['Personal']]
+    df_new = df_new[required_columns]
+    df_check = df_check[required_columns]
 
     # Perform cleaning on df_check
     df_check = df_check.drop_duplicates()
@@ -38,7 +33,7 @@ def clean(path):
     df_cleaned = merged_df[merged_df['merge_company'] == 'left_only']
 
     # Selecting the relevant columns and printing the cleaned data
-    df_cleaned = df_cleaned[required_columns + ['Personal']]
+    df_cleaned = df_cleaned[required_columns]
     print(df_cleaned)
 
     # Saving the cleaned data to batch.csv
@@ -47,7 +42,7 @@ def clean(path):
     # Only add new, non-duplicate entries to test2.csv
     df_check_updated = pd.concat([df_check, df_cleaned]).drop_duplicates(subset=['Email', 'Company Name'], keep='first')
 
-    # Update 'First Name' and 'Personal' for existing entries
+    # Update 'First Name' for existing entries
     df_check_updated = df_check_updated.set_index('Email')
     df_new_indexed = df_new.set_index('Email')
     df_check_updated.update(df_new_indexed)

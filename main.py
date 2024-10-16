@@ -12,8 +12,8 @@ SENDER_EMAIL = 'nichebox.co@gmail.com' #make sure to use the same gmail as the s
 CC_EMAILS = 'jiya.patel@uga.edu'  # Add constant CC addresses here
 EMAIL_TEMPLATE = '''<p>Dear {name},</p>
  
-<p> Are you finding it challenging to plan a team building event? Organizing activities that align with your team's goals, 
-culture, and interests can be a tough task, and it often requires more time and effort than anticipated. {personal}</p>
+<p> Are you finding it challenging to plan a team building event at {company_name}? Organizing activities that align with your team's goals, 
+culture, and interests can be a tough task, and it often requires more time and effort than anticipated.</p>
 
 <p> Let us take that responsibility off your plate. From selecting the right activities to managing every detail, 
 we handle everything to ensure your team gets a meaningful, fun, and impactful event.</p>
@@ -61,11 +61,11 @@ def send_email(service, message):
         return None
 
 def extract_and_send_emails(service):
-    df = pd.read_csv('data/test2_save_2024-10-15-1337.csv')
+    df = pd.read_csv('data/batch.csv')
     
     for index, row in df.iterrows():
         personalized_subject = f"Need a Stress Free Solution for Your Next Team Building Event?"
-        email_body = EMAIL_TEMPLATE.format(name=row['First Name'], company_name=row['Company Name'], personal=row['Personal'])
+        email_body = EMAIL_TEMPLATE.format(name=row['First Name'], company_name=row['Company Name'])
         message = create_message(SENDER_EMAIL, row['Email'], personalized_subject, email_body)
         send_email(service, message)
         time.sleep(5)
