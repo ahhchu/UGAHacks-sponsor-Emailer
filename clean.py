@@ -42,6 +42,15 @@ def clean(path):
     # Only add new, non-duplicate entries to test2.csv
     df_check_updated = pd.concat([df_check, df_cleaned]).drop_duplicates(subset=['Email', 'Company Name'], keep='first')
 
+    # Check for duplicate emails before updating
+    if df_check_updated['Email'].duplicated().any():
+        print("Warning: Duplicate emails found in df_check_updated.")
+        df_check_updated = df_check_updated.drop_duplicates(subset='Email', keep='first')
+
+    if df_new['Email'].duplicated().any():
+        print("Warning: Duplicate emails found in df_new.")
+        df_new = df_new.drop_duplicates(subset='Email', keep='first')
+
     # Update 'First Name' for existing entries
     df_check_updated = df_check_updated.set_index('Email')
     df_new_indexed = df_new.set_index('Email')
@@ -66,4 +75,4 @@ def clean(path):
     return 'data/test2.csv'
 
 if __name__ == '__main__':
-    clean('data/Details_20241016172129.csv')
+    clean('data/Details_20241016181522.csv')
